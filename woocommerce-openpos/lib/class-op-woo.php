@@ -3717,7 +3717,7 @@ class OP_Woo{
             $demo_domain_email = apply_filters('op_customer_demo_domain','@gmail.com');
             $email = $username.$demo_domain_email;
         }
-        // TRG-1 start
+        // TRG-2 start
            global $wpdb;
         $phone = isset($request['phone']) &&  $request['phone'] != 'null'  ? $request['phone'] : '';
         $result_add_custom = $wpdb->get_results ( $wpdb->prepare("  SELECT * FROM wp_users AS cuser INNER JOIN wp_usermeta AS user_meta ON cuser.ID = user_meta.user_id WHERE user_meta.meta_key = 'billing_phone' and user_meta.meta_value LIKE %s",$phone) ,ARRAY_A);
@@ -3725,7 +3725,7 @@ class OP_Woo{
         {
             $result['message'] = __('Already have an account using this phone number','openpos' );
         }
-        // TRG-1 end 
+        // TRG-2 end 
         if($password !== false)
         {
             if($password != $confirm_password)

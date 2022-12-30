@@ -203,6 +203,8 @@ class Openpos_Core
                 
             );
 
+//TRG -2 START
+//TRG -2 END
             $total = 0;
             $total_product_pages = 0;
             $posts = array();    
@@ -400,7 +402,8 @@ class Openpos_Core
                 )
             )
         );
-        $query = new WP_Query( $args );
+//TRG -2
+        $query = new WP_Query( $args );//TRG -2
         return $query->get_posts();
     }
     public function getPosWarehouseOrderByDate($warehouse_id,$from,$to,$config_status = array()){
@@ -435,7 +438,8 @@ class Openpos_Core
                 )
             )
         );
-        $query = new WP_Query( $args );
+//TRG -2
+        $query = new WP_Query( $args );//TRG -2
         return $query->get_posts();
     }
     public function getPosOrderByDate($from,$to, $config_status = array())
@@ -467,7 +471,9 @@ class Openpos_Core
             )
         );
 
+//TRG -2
         $query = new WP_Query( $args );
+//TRG -2
        
         return $query->get_posts();
     }
@@ -493,7 +499,8 @@ class Openpos_Core
                 )
             )
         );
-        $query = new WP_Query( $args );
+//TRG -2
+       $query = new WP_Query( $args );//TRG -2 
         return $query->get_posts();
     }
     public function getPosWarehouseTransactionsByDate($warehouse_id,$from,$to){
@@ -535,6 +542,7 @@ class Openpos_Core
             'post_status'      => 'any',
             'posts_per_page' => -1
         );
+//TRG -2
         $query = new WP_Query( $args );
         return $query->get_posts();
     }
@@ -673,7 +681,7 @@ class Openpos_Core
         $diff_hour = $start->diffInHours($end);
         if( $diff_month > 12 || $diff_day < 0)
         {
-            throw new Exception('Time Range is invalid. Maximum is 365 days');
+            throw new Exception('Time Range is invalid. Maximum is 365 days');//TRG -2
         }
         if($diff_month < 2)
         {
@@ -800,14 +808,14 @@ class Openpos_Core
         if ( $order_timestamp > strtotime( '-1 day', current_time( 'timestamp', true ) ) && $order_timestamp <= current_time( 'timestamp', true ) ) {
             $show_date = sprintf(
             /* translators: %s: human-readable time difference */
-                _x( '%s ago', '%s = human-readable time difference', 'woocommerce' ),
+                _x( '%s ago', '%s = human-readable time difference', 'woocommerce' ),//TRG -2
                 human_time_diff( $order_timestamp, current_time( 'timestamp', true ) )
             );
         } else {
-            $show_date = $WC_DateTime->date_i18n( apply_filters( 'woocommerce_admin_order_date_format', __( 'M j, Y', 'woocommerce' ) ) );
+            $show_date = $WC_DateTime->date_i18n( apply_filters( 'woocommerce_admin_order_date_format', __( 'M j, Y', 'woocommerce' ) ) );//TRG -2
         }
         return sprintf(
-            '<time datetime="%1$s" title="%2$s">%3$s</time>',
+            '<time datetime="%1$s" title="%2$s">%3$s</time>',//TRG -2
             esc_attr( $WC_DateTime->date( 'c' ) ),
             esc_html( $WC_DateTime->date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ) ),
             esc_html( $show_date )
@@ -823,7 +831,7 @@ class Openpos_Core
         }
         return $datetime;
     }
-
+//TRG -2 START
     function additionPaymentMethodDetails(){
         $payment_options = array();
         $payment_options['chip_pin'] = array(
@@ -839,6 +847,7 @@ class Openpos_Core
             'frontend_title' => __('Credit Card','openpos'),
             'description' => ''
         );
+	//TRG -2 END
         return  apply_filters('op_addition_payment_methods',$payment_options);
     }
 
@@ -873,6 +882,7 @@ class Openpos_Core
         $payment_methods = array();
         $addition_payments = $this->additionPaymentMethodDetails();
         $payment_gateways   = WC_Payment_Gateways::instance()->payment_gateways();
+//TRG -2
         foreach($methods as $code => $title)
         {
             $type = 'offline';
@@ -918,6 +928,7 @@ class Openpos_Core
                 'allow_refund' => $allow_refund,
             );
             $payment_methods[] = apply_filters('op_login_format_payment_data',$payment_method_data,$methods);
+//TRG -2
         }
         return apply_filters('op_pos_payment_method_list',$payment_methods);
     }
@@ -1130,7 +1141,7 @@ class Openpos_Core
 
     public function formatReceiptSetting($setting,$op_incl_tax_mode= false)
     {
-        // TRG-1 start 
+        // TRG-2 start 
         $payment_methods = '<ul class="payment-methods">';
         $payment_methods .= '<% payment_method.forEach(function(payment){ %>';
         $payment_methods .= '<li><%= payment.name %> : <%= payment.paid %></li>';
@@ -1158,7 +1169,7 @@ class Openpos_Core
             '[customer_email]' => '<%= customer.email %>',
             '[payment_method]' => $payment_methods,
         );
-        // TRG-1 end 
+        // TRG-2 end 
         //receipt css
         $file_name = 'receipt_css.txt';
         $theme_file_path = rtrim(get_stylesheet_directory(),'/').'/woocommerce-openpos/'.$file_name;
@@ -1237,7 +1248,7 @@ class Openpos_Core
         }else{
             $receipt_template = '<table>
             <tr class="tabletitle">
-                <td class="item"><h2>'.__('Item 12 2','openpos' ).'</h2></td>
+                <td class="item"><h2>'.__('Item','openpos' ).'</h2></td>
                 <td class="qty"><h2>'.__('Price','openpos' ).'</h2></td>
                 <td class="qty"><h2>'.__('Qty','openpos' ).'</h2></td>
                 <td class="qty"><h2>'.__('Discount','openpos' ).'</h2></td>

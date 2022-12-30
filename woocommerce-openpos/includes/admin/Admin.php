@@ -262,6 +262,7 @@ class Openpos_Admin{
 
         $addition_general_setting = array();
         $wc_order_status = wc_get_order_statuses();
+	// TRG -2 START 
         if(isset($allow_payment_methods['stripe']))
         {
             $addition_general_setting = array(
@@ -281,6 +282,7 @@ class Openpos_Admin{
                 ),
             );
         }
+	// TRG-2 END 
         if($allow_refund_duration == 'yes_day')
         {
             $refund_duration = array(
@@ -431,6 +433,7 @@ class Openpos_Admin{
             {
                 $tax_rate_options[$k] = $v; 
             }
+		// TRG -2 
 
             $pos_discount_tax_class_setting = array(
                 'name'              => 'pos_discount_tax_class',
@@ -594,7 +597,7 @@ class Openpos_Admin{
                 array(
                     'name'    => 'pos_pwa_enable',
                     'label'   => __( 'Progressive Web Apps Cached', 'openpos' ),
-                    'desc'    => __( 'OpenPOS Progressive Web Apps on Desktop can be ‘installed’ on the user’s device much like native apps. It’s fast. Feel integrated because they launched in the same way as other apps, and run in an app window, without an address bar or tabs. It is reliable because service workers can cache all of the assets they need to run. And it create an engaging experience for users.', 'openpos' ),
+                    'desc'    => __( 'OpenPOS Progressive Web Apps on Desktop can be ‘installed’ on the user’s device much like native apps. It’s fast. Feel integrated because they launched in the same way as other apps, and run in an app window, without an address bar or tabs. It is reliable because service workers can cache all of the assets they need to run. And it create an engaging experience for users.', 'openpos' ),// TRG -2 
                     'type'    => 'select',
                     'default' => 'yes',
                     'options' =>  array(
@@ -1356,7 +1359,7 @@ class Openpos_Admin{
         }
         $addition_general_setting = apply_filters('op_addition_general_setting',$addition_general_setting);
         $settings_fields['openpos_payment'] = array_merge($settings_fields['openpos_payment'],$addition_general_setting);
-        return $settings_fields;
+        return $settings_fields;// TRG -2 
     }
 
     public function products()
@@ -2007,8 +2010,9 @@ class Openpos_Admin{
         {
             $args['s'] = $searchPhrase;
         }
+	//TRG -2 
 
-        $posts = $this->core->getProducts($args);
+        $posts = $this->core->getProducts($args);//TRG -2 
         $posts_array = $posts['posts'];
         $total = $posts['total'];
         $fields = array('post_title');
@@ -2119,7 +2123,7 @@ class Openpos_Admin{
             'rows' => $rows,
             'total' => $total
 
-        );
+        );// TRG -2 
         echo json_encode($result);
         exit;
     }
@@ -2208,7 +2212,8 @@ class Openpos_Admin{
         {
             $args['s'] = $searchPhrase;
         }
-        $get_posts = new WP_Query($args);
+// TRG -2 
+        $get_posts = new WP_Query($args);// TRG -2 
         $posts = array('total'=>$get_posts->found_posts,'posts' => $get_posts->get_posts());
 
         $posts_array = $posts['posts'];
@@ -2394,6 +2399,7 @@ class Openpos_Admin{
         {
             $id = $post->ID;
             $order = wc_get_order($id);
+// TRG -2 
 
             $register_id = get_post_meta($id,'_pos_order_cashdrawer',true);
 
@@ -2508,6 +2514,7 @@ class Openpos_Admin{
                 wp_enqueue_script('openpos.admin-jquery.datatable', OPENPOS_URL.'/assets/js/datatable.js',['jquery','jquery-ui-core','jquery-ui-datepicker'],$info['Version']);
                 wp_enqueue_script('openpos.admin-jquery.datatable.jquery', OPENPOS_URL.'/assets/js/datatable.jquery.js','jquery',$info['Version']);
                 wp_enqueue_script('openpos.admin-jquery.datatable.jquery.csv', OPENPOS_URL.'/assets/js/jquery.tabletoCSV.js','jquery',$info['Version']);
+// TRG -2 
 
             }else{
 
@@ -2594,7 +2601,7 @@ class Openpos_Admin{
 
     function pos_admin_menu() {
         $openpos_type = $this->settings_api->get_option('openpos_type','openpos_pos');
-        $page = add_menu_page( __( 'Open POS', 'openpos' ), __( 'Quản lý kho hàng', 'openpos' ),'manage_woocommerce','openpos-dasboard',array($this,'dashboard'),plugins_url('woocommerce-openpos/assets/images/pos.png'),59 );
+        $page = add_menu_page( __( 'Open POS', 'openpos' ), __( 'Quản lý kho hàng', 'openpos' ),'manage_woocommerce','openpos-dasboard',array($this,'dashboard'),plugins_url('woocommerce-openpos/assets/images/pos.png'),59 );// TRG -2 
         add_action( 'admin_print_styles-'. $page, array( &$this, 'admin_enqueue' ) );
 
         $page = add_submenu_page( 'openpos-dasboard', __( 'POS - Orders', 'openpos' ),  __( 'Orders', 'openpos' ) , 'manage_woocommerce', 'op-orders', array( $this, 'orders_page' ) );
@@ -2729,6 +2736,7 @@ class Openpos_Admin{
                 $template_css = $template_details['custom_css'];
                 $default = array(
                     'id' => $id,
+// TRG -2 
                     'type' => $template_type,
                     'order_id' => $order_id,
                     'paper_width' => $paper_width,
@@ -2750,13 +2758,15 @@ class Openpos_Admin{
 
     function products_page() {
         $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+// TRG -2 
         if($action == 'print-barcode')
         {
+	// TRG -2 START
             require(OPENPOS_DIR.'templates/admin/print_barcode.php');
         }else{
             require(OPENPOS_DIR.'templates/admin/products.php');
         }
-        
+        // TRG -2 END
     }
     function register_page() {
         require(OPENPOS_DIR.'templates/admin/registers.php');
@@ -3044,6 +3054,7 @@ class Openpos_Admin{
             }else{
                 $result = array();
                 $ranges = array();
+// TRG -2 
                 if($report_duration == 'custom')
                 {
 
@@ -3883,9 +3894,11 @@ class Openpos_Admin{
                                 
                                 if($payment_methods && is_array($transactions))
                                 {
+// TRG -2 START
                                     foreach($transactions as $payment_method)
                                     {
                                         $payment_code = $payment_method['payment_code'];
+// TRG -2  END 
                                         if($payment_code == $report_payment)
                                         {
                                             $summary_data['total_order']++;
@@ -4096,12 +4109,14 @@ class Openpos_Admin{
                         }
                         $table_label = array(
                             __('Product','openpos'),
+// TRG -2 
                             __('QTY','openpos'),
                             __('Sale','openpos'),
                             __('Profit','openpos'),
                         );
                         $orders_export_data[] = array(
                             __('Product','openpos'),
+// TRG -2 
                             __('QTY','openpos'),
                             __('Sale','openpos'),
                             __('Profit','openpos'),
@@ -4111,6 +4126,7 @@ class Openpos_Admin{
                         $summary_html.= '<table class="table table-bordered">';
                         $summary_html.= '<tr>';
                         $summary_html.= '<th>'.__('Product','openpos').'</th>';
+// TRG -2 
                         $summary_html.= '<th>'.__('QTY','openpos').'</th>';
                         $summary_html.= '<th>'.__('Sale','openpos').'</th>';
                         $summary_html.= '<th>'.__('Profit','openpos').'</th>';
@@ -4129,6 +4145,7 @@ class Openpos_Admin{
                                 if($product)
                                 {
                                     $id = $product->get_id();
+// TRG -2 
                                     $item_qty = $item->get_quantity();
                                     
                                     $item_sales =  $order_item_data['total'];
@@ -4276,6 +4293,8 @@ class Openpos_Admin{
                     $objWriter->save($upload_dir_path.'/openpos/'.$file_name);
 
                     $result['export_file'] = $url.'/openpos/'.$file_name;
+// TRG -2 START
+// TRG -2  END
                 }
                 echo json_encode($result);
 
@@ -4395,8 +4414,9 @@ class Openpos_Admin{
         $addition_payments = $this->core->additionPaymentMethods();
         $payment_options = array_merge($payment_options, $addition_payments);
 
+// TRG -2 START
         $setting_payment_methods = $this->core->formatPaymentMethods($payment_options);
-        
+        // TRG -2  END
 
 
 
@@ -4910,6 +4930,7 @@ class Openpos_Admin{
             'format' => false
         ), $atts, 'op_product' );
         $result = '';
+// TRG -2 
         switch ($atts['attribute'])
         {
             case 'barcode':
@@ -5028,6 +5049,8 @@ class Openpos_Admin{
     public function print_bacode(){
         $is_preview = isset($_REQUEST['is_preview']) && $_REQUEST['is_preview'] == 1 ? true : false;
         $is_print = isset($_REQUEST['is_print']) && $_REQUEST['is_print'] == 1 ? true : false;
+// TRG -2 START 
+// TRG -2. END 
         if($is_preview)
         {
             global $_op_product;
@@ -5672,9 +5695,11 @@ class Openpos_Admin{
         {
             die(__('Your warehouse do not exist.','openpos'));
         }
-        $query = $this->core->getProducts(array(
+	// TRG -2 START
+        $query = $this->core->getProducts(array( 
             'numberposts' => -1
         ));
+// TRG -2 END 
         $products = $query['posts'];
         $filename = 'inventory.csv';
         $fh = @fopen( 'php://output', 'w' );
@@ -5855,7 +5880,9 @@ class Openpos_Admin{
                     {
                         $barcode = $row[$barcode_index];
                         $qty = $row[$qty_index];
+// TRG -2 
                         $product_id = $this->core->getProductIdByBarcode($barcode);
+// TRG -2 
                         $post = get_post($product_id);
                         if($post)
                         {

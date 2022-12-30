@@ -1,6 +1,5 @@
 <?php
-// TRG-1 start 
-
+// TRG-2 start 
 /*
 Plugin Name: POS Quản lý bán hàng
 Description: Quản lý bán hàng.
@@ -12,7 +11,7 @@ WC tested up to: 1
 Text Domain: custom
 */
 
-// TRG-1 end  
+// TRG-2 end  
 define('OPENPOS_DIR',plugin_dir_path(__FILE__));
 define('OPENPOS_URL',plugins_url('woocommerce-openpos'));
 

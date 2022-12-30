@@ -586,11 +586,11 @@ class Openpos_Front{
             );
         }
     }
-    //TRG-1 start 
+    //TRG-2 start 
     public function getProductPerPage(){
         return apply_filters('op_load_product_per_page',150);
     }
-    //TRG-1 end 
+    //TRG-2 end 
     public function getTotalPageProduct(){
         $rowCount = $this->getProductPerPage();
         $args = array(
